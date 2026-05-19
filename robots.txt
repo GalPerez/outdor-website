@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://out-dor.com/sitemap.xml
