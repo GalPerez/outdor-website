@@ -133,12 +133,27 @@ if (form) {
     }
 
     if (valid) {
-      /* PLACEHOLDER: כאן שלח לשרת / Netlify Forms / EmailJS */
       const success = document.getElementById('form-success');
-      form.reset();
-      success.hidden = false;
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setTimeout(() => { success.hidden = true; }, 6000);
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString()
+      })
+        .then(() => {
+          form.reset();
+          success.hidden = false;
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => { success.hidden = true; }, 6000);
+        })
+        .catch(() => {
+          alert('שגיאה בשליחה. נסה שוב או צור קשר טלפוני.');
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+        });
     }
   });
 }

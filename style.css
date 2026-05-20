@@ -1,19 +1,18 @@
 /* =====================================================
    OUTDOR — style.css
-   RTL, Mobile-First, Hebrew (Heebo)
+   RTL, Mobile-First, Hebrew (Heebo + Orbitron)
    ===================================================== */
 
 /* ---------- CSS Variables ---------- */
 :root {
-  /* סקאלת בורדו */
-  --clr-p-900: #2d0810;
-  --clr-p-700: #5a1422;
-  --clr-p-600: #7b1c2e;
-  --clr-p-500: #9e2840;
-  --clr-p-400: #c04060;
+  --clr-p-900: #2a0d14;
+  --clr-p-700: #5c1e30;
+  --clr-p-600: #85364b;
+  --clr-p-500: #a8485f;
+  --clr-p-400: #c06878;
   --clr-p-200: #dda0b0;
-  --clr-p-100: #f5e8ea;
-  --clr-p-50:  #fdf5f6;
+  --clr-p-100: #f5e8ec;
+  --clr-p-50:  #fdf5f7;
 
   --clr-primary:       var(--clr-p-600);
   --clr-primary-dark:  var(--clr-p-700);
@@ -26,6 +25,7 @@
   --clr-border:    #e0e0e0;
 
   --ff-main: 'Heebo', sans-serif;
+  --ff-art:  'Orbitron', sans-serif;
 
   --fw-light:  300;
   --fw-normal: 400;
@@ -78,7 +78,16 @@ input, select, textarea { font-family: inherit; }
 
 .section { padding: 80px 0; }
 .section--light { background: var(--clr-light); }
-.section--dark  { background: #3a3a3c; }
+.section--dark {
+  background: url('assets/brand-concrete.jpg') center/cover no-repeat;
+  position: relative;
+}
+.section--dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 30, 32, 0.88);
+}
 
 .section-header {
   text-align: center;
@@ -136,6 +145,18 @@ input, select, textarea { font-family: inherit; }
 .btn--primary:hover, .btn--primary:focus-visible {
   background: var(--clr-primary-dark);
   border-color: var(--clr-primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn--hero {
+  background: var(--clr-white);
+  color: var(--clr-primary);
+  border: 2px solid var(--clr-white);
+  font-weight: var(--fw-bold);
+}
+.btn--hero:hover, .btn--hero:focus-visible {
+  background: var(--clr-p-100);
+  border-color: var(--clr-p-100);
   transform: translateY(-2px);
 }
 
@@ -273,9 +294,10 @@ input, select, textarea { font-family: inherit; }
 
 .hero__eyebrow {
   display: inline-block;
-  font-size: 0.9rem;
-  font-weight: var(--fw-semi);
-  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  font-weight: var(--fw-normal);
+  font-family: var(--ff-art);
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: #e8a0b0;
   margin-bottom: 16px;
@@ -319,21 +341,32 @@ input, select, textarea { font-family: inherit; }
    STATS BAR
    ===================================================== */
 .stats {
-  background: linear-gradient(90deg, var(--clr-p-900) 0%, var(--clr-p-700) 40%, var(--clr-p-500) 100%);
+  background: url('assets/brand-concrete.jpg') center/cover no-repeat;
+  position: relative;
   padding: 40px 0;
+}
+.stats::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(42,13,20,0.92) 0%, rgba(92,30,48,0.88) 50%, rgba(133,54,75,0.85) 100%);
 }
 .stats__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 30px;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 .stats__number {
   display: block;
   font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: var(--fw-black);
+  font-weight: var(--fw-bold);
+  font-family: var(--ff-art);
   color: var(--clr-white);
   line-height: 1;
+  letter-spacing: 0.05em;
 }
 .stats__label {
   display: block;
@@ -494,11 +527,14 @@ input, select, textarea { font-family: inherit; }
 }
 .gallery__item img {
   width: 100%;
-  height: 200px;
+  height: 300px;
   object-fit: cover;
+  object-position: top center;
   transition: transform 0.35s ease;
 }
 .gallery__item:hover img, .gallery__item:focus-visible img { transform: scale(1.05); }
+.gallery__item:nth-child(5) img,
+.gallery__item:nth-child(6) img { object-position: center; }
 
 .gallery__item-overlay {
   position: absolute;
@@ -557,6 +593,8 @@ input, select, textarea { font-family: inherit; }
    QUOTE FORM
    ===================================================== */
 .quote__inner {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: 48px;
   align-items: center;
@@ -580,10 +618,13 @@ input, select, textarea { font-family: inherit; }
   color: rgba(255,255,255,0.85);
   font-size: 0.95rem;
 }
-.quote__perks li i { color: #6ee79b; }
+.quote__perks li i { color: var(--clr-p-400); }
 
 .quote__form {
-  background: var(--clr-white);
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius);
   padding: 36px 32px;
   box-shadow: var(--shadow-lg);
@@ -598,26 +639,34 @@ input, select, textarea { font-family: inherit; }
 .form-group label {
   font-size: 0.9rem;
   font-weight: var(--fw-semi);
-  color: var(--clr-black);
+  color: rgba(255, 255, 255, 0.9);
 }
 .form-group input,
 .form-group select,
 .form-group textarea {
   padding: 12px 14px;
-  border: 1.5px solid var(--clr-border);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-sm);
   font-size: 1rem;
-  color: var(--clr-text);
-  background: var(--clr-white);
+  color: var(--clr-white);
+  background: rgba(255, 255, 255, 0.08);
   transition: border-color var(--transition), box-shadow var(--transition);
   width: 100%;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+.form-group select option {
+  background: #2c2c2c;
+  color: var(--clr-white);
 }
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--clr-primary);
-  box-shadow: 0 0 0 3px rgba(123,28,46,0.12);
+  border-color: var(--clr-p-400);
+  box-shadow: 0 0 0 3px rgba(133,54,75,0.25);
 }
 .form-group input.invalid,
 .form-group select.invalid,
@@ -933,7 +982,7 @@ a.contact-card:hover,
 
   /* Gallery grid — 1 col on tiny screens */
   .gallery__grid { grid-template-columns: 1fr 1fr; }
-  .gallery__item img { height: 160px; }
+  .gallery__item img { height: 220px; }
 
   /* BA images */
   .ba-half img { height: 140px; }
@@ -982,7 +1031,7 @@ a.contact-card:hover,
   .about__inner { grid-template-columns: 1fr 1fr; }
   .services__grid { grid-template-columns: repeat(3, 1fr); }
   .gallery__grid  { grid-template-columns: repeat(3, 1fr); }
-  .gallery__item img { height: 240px; }
+  .gallery__item img { height: 340px; }
   .ba-half img { height: 260px; }
   .quote__inner   { grid-template-columns: 1fr 1fr; }
   .testimonials__grid { grid-template-columns: repeat(3, 1fr); }
