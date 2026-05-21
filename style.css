@@ -272,6 +272,7 @@ input, select, textarea { font-family: inherit; }
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   background: url('assets/hero-bg.jpg') center/cover no-repeat;
@@ -960,12 +961,20 @@ a.contact-card:hover,
 }
 
 /* =====================================================
+   RESPONSIVE — Small phones (iPhone SE, < 390px)
+   ===================================================== */
+@media (max-width: 389px) {
+  .hero { min-height: auto; padding-bottom: 60px; }
+}
+
+/* =====================================================
    RESPONSIVE — Mobile only (< 640px)
    ===================================================== */
 @media (max-width: 639px) {
   .section { padding: 52px 0; }
 
   /* Hero */
+  .hero { min-height: 70vh; }
   .hero__content { padding: 40px 16px; }
   .hero__actions { flex-direction: column; align-items: center; }
   .hero__actions .btn { width: 100%; max-width: 300px; }
