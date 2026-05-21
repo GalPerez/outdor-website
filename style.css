@@ -341,7 +341,7 @@ input, select, textarea { font-family: inherit; }
    STATS BAR
    ===================================================== */
 .stats {
-  background: url('assets/brand-concrete.jpg') center/cover no-repeat;
+  background: url('assets/concrete.jpg') center/cover no-repeat;
   position: relative;
   padding: 40px 0;
 }
@@ -349,7 +349,7 @@ input, select, textarea { font-family: inherit; }
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(42,13,20,0.92) 0%, rgba(92,30,48,0.88) 50%, rgba(133,54,75,0.85) 100%);
+  background: linear-gradient(90deg, rgba(42,13,20,0.90) 0%, rgba(92,30,48,0.82) 50%, rgba(133,54,75,0.75) 100%);
 }
 .stats__grid {
   display: grid;
