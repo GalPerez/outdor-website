@@ -90,6 +90,39 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
 });
 
+/* ---- File Input Preview with Remove ---- */
+const filesInput = document.getElementById('form-files');
+const filesPreview = document.getElementById('files-preview');
+let selectedFiles = [];
+
+if (filesInput) {
+  filesInput.addEventListener('change', () => {
+    Array.from(filesInput.files).forEach(f => {
+      if (!selectedFiles.find(sf => sf.name === f.name && sf.size === f.size)) {
+        selectedFiles.push(f);
+      }
+    });
+    filesInput.value = '';
+    renderFilesPreview();
+  });
+}
+
+function renderFilesPreview() {
+  if (!filesPreview) return;
+  filesPreview.innerHTML = '';
+  selectedFiles.forEach((f, i) => {
+    const li = document.createElement('li');
+    li.className = 'files-preview__item';
+    li.innerHTML = `<span class="files-preview__name">${f.name}</span><button type="button" class="files-preview__remove" aria-label="הסר קובץ">✕</button>`;
+    li.querySelector('button').addEventListener('click', () => {
+      selectedFiles.splice(i, 1);
+      renderFilesPreview();
+    });
+    filesPreview.appendChild(li);
+  });
+
+}
+
 /* ---- Quote Form Validation ---- */
 const form = document.getElementById('quote-form');
 if (form) {
@@ -132,18 +165,34 @@ if (form) {
       clearError(service, errService);
     }
 
+    /* Files size */
+    const errFiles = document.getElementById('error-files');
+    if (selectedFiles.length > 0) {
+      const totalSize = selectedFiles.reduce((sum, f) => sum + f.size, 0);
+      if (totalSize > 10 * 1024 * 1024) {
+        if (errFiles) errFiles.textContent = 'גודל הקבצים חורג מ-10MB — אנא הקטן או צרף פחות קבצים';
+        valid = false;
+      } else {
+        if (errFiles) errFiles.textContent = '';
+      }
+    }
+
     if (valid) {
       const success = document.getElementById('form-success');
       const submitBtn = form.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
 
+      const fd = new FormData(form);
+      selectedFiles.forEach(f => fd.append('files', f));
+
       fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form)).toString()
+        body: fd
       })
         .then(() => {
           form.reset();
+          selectedFiles = [];
+          renderFilesPreview();
           success.hidden = false;
           success.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setTimeout(() => { success.hidden = true; }, 6000);
