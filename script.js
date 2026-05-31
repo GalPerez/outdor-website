@@ -17,6 +17,17 @@ hamburger.addEventListener('click', () => {
   hamburger.setAttribute('aria-expanded', isOpen);
 });
 
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', e => {
+    const href = anchor.getAttribute('href');
+    const section = href !== '#' && document.querySelector(href);
+    if (section) {
+      e.preventDefault();
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
 /* Close mobile menu when a link is clicked */
 navMenu.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
@@ -34,6 +45,56 @@ document.addEventListener('keydown', e => {
     hamburger.setAttribute('aria-expanded', 'false');
     hamburger.focus();
   }
+});
+
+/* ---- Gallery Lightbox ---- */
+const lightbox      = document.getElementById('lightbox');
+const lightboxImg   = document.getElementById('lightbox-img');
+const lightboxClose = document.getElementById('lightbox-close');
+const lightboxPrev  = document.getElementById('lightbox-prev');
+const lightboxNext  = document.getElementById('lightbox-next');
+
+const baImages = Array.from(document.querySelectorAll('.ba-half img'));
+let currentIndex = 0;
+
+function openLightbox(index) {
+  currentIndex = index;
+  lightboxImg.src = baImages[index].src;
+  lightboxImg.alt = baImages[index].alt;
+  lightbox.hidden = false;
+  lightboxClose.focus();
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.hidden = true;
+  lightboxImg.src = '';
+  document.body.style.overflow = '';
+}
+
+function showPrev() {
+  openLightbox((currentIndex - 1 + baImages.length) % baImages.length);
+}
+
+function showNext() {
+  openLightbox((currentIndex + 1) % baImages.length);
+}
+
+baImages.forEach((img, i) => {
+  img.closest('.ba-half').addEventListener('click', () => openLightbox(i));
+});
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightboxPrev.addEventListener('click', showPrev);
+lightboxNext.addEventListener('click', showNext);
+lightbox.addEventListener('click', e => {
+  if (e.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', e => {
+  if (lightbox.hidden) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') showPrev();
+  if (e.key === 'ArrowLeft')  showNext();
 });
 
 /* ---- FAQ Accordion ---- */
@@ -59,69 +120,6 @@ document.querySelectorAll('.faq__question').forEach(btn => {
   });
 });
 
-/* ---- Gallery Lightbox ---- */
-const lightbox      = document.getElementById('lightbox');
-const lightboxImg   = document.getElementById('lightbox-img');
-const lightboxClose = document.getElementById('lightbox-close');
-
-document.querySelectorAll('.gallery__item').forEach(item => {
-  item.addEventListener('click', () => {
-    const src = item.dataset.src;
-    const alt = item.querySelector('img').alt;
-    lightboxImg.src = src;
-    lightboxImg.alt = alt;
-    lightbox.hidden = false;
-    lightboxClose.focus();
-    document.body.style.overflow = 'hidden';
-  });
-});
-
-function closeLightbox() {
-  lightbox.hidden = true;
-  lightboxImg.src = '';
-  document.body.style.overflow = '';
-}
-
-lightboxClose.addEventListener('click', closeLightbox);
-lightbox.addEventListener('click', e => {
-  if (e.target === lightbox) closeLightbox();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
-});
-
-/* ---- File Input Preview with Remove ---- */
-const filesInput = document.getElementById('form-files');
-const filesPreview = document.getElementById('files-preview');
-let selectedFiles = [];
-
-if (filesInput) {
-  filesInput.addEventListener('change', () => {
-    Array.from(filesInput.files).forEach(f => {
-      if (!selectedFiles.find(sf => sf.name === f.name && sf.size === f.size)) {
-        selectedFiles.push(f);
-      }
-    });
-    filesInput.value = '';
-    renderFilesPreview();
-  });
-}
-
-function renderFilesPreview() {
-  if (!filesPreview) return;
-  filesPreview.innerHTML = '';
-  selectedFiles.forEach((f, i) => {
-    const li = document.createElement('li');
-    li.className = 'files-preview__item';
-    li.innerHTML = `<span class="files-preview__name">${f.name}</span><button type="button" class="files-preview__remove" aria-label="הסר קובץ">✕</button>`;
-    li.querySelector('button').addEventListener('click', () => {
-      selectedFiles.splice(i, 1);
-      renderFilesPreview();
-    });
-    filesPreview.appendChild(li);
-  });
-
-}
 
 /* ---- Quote Form Validation ---- */
 const form = document.getElementById('quote-form');
@@ -165,34 +163,17 @@ if (form) {
       clearError(service, errService);
     }
 
-    /* Files size */
-    const errFiles = document.getElementById('error-files');
-    if (selectedFiles.length > 0) {
-      const totalSize = selectedFiles.reduce((sum, f) => sum + f.size, 0);
-      if (totalSize > 10 * 1024 * 1024) {
-        if (errFiles) errFiles.textContent = 'גודל הקבצים חורג מ-10MB — אנא הקטן או צרף פחות קבצים';
-        valid = false;
-      } else {
-        if (errFiles) errFiles.textContent = '';
-      }
-    }
-
     if (valid) {
       const success = document.getElementById('form-success');
       const submitBtn = form.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
 
-      const fd = new FormData(form);
-      selectedFiles.forEach(f => fd.append('files', f));
-
       fetch('/', {
         method: 'POST',
-        body: fd
+        body: new FormData(form)
       })
         .then(() => {
           form.reset();
-          selectedFiles = [];
-          renderFilesPreview();
           success.hidden = false;
           success.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setTimeout(() => { success.hidden = true; }, 6000);
@@ -215,6 +196,35 @@ function clearError(input, errEl) {
   input.classList.remove('invalid');
   errEl.textContent = '';
 }
+
+/* ---- Scroll reveal ---- */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+[
+  { selector: '.section-header',    stagger: 0   },
+  { selector: '.service-card',      stagger: 0   },
+  { selector: '.about__text',       stagger: 0   },
+  { selector: '.about__image',      stagger: 150 },
+  { selector: '.stats__item',       stagger: 100 },
+  { selector: '.testimonial-card',  stagger: 100 },
+  { selector: '.ba-item',           stagger: 80  },
+  { selector: '.faq__item',         stagger: 50  },
+  { selector: '.quote__text',       stagger: 0   },
+  { selector: '.quote__form',       stagger: 150 },
+].forEach(({ selector, stagger }) => {
+  document.querySelectorAll(selector).forEach((el, i) => {
+    el.classList.add('reveal');
+    if (stagger) el.style.transitionDelay = `${i * stagger}ms`;
+    revealObserver.observe(el);
+  });
+});
 
 /* ---- Footer year ---- */
 const yearEl = document.getElementById('footer-year');
