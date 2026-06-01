@@ -220,12 +220,6 @@ input, select, textarea { font-family: inherit; }
 
 .navbar__logo { display: flex; align-items: center; flex-shrink: 1; min-width: 0; }
 .navbar__logo-img { height: 44px; width: auto; max-width: 160px; object-fit: contain; display: block; }
-.navbar__logo-text {
-  font-size: 1.6rem;
-  font-weight: var(--fw-black);
-  color: var(--clr-white);
-  letter-spacing: -0.02em;
-}
 
 .navbar__menu {
   display: flex;
@@ -313,19 +307,6 @@ input, select, textarea { font-family: inherit; }
   width: auto;
   margin: 0 auto 16px;
 }
-.hero__eyebrow {
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: var(--fw-normal);
-  font-family: var(--ff-art);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #e8a0b0;
-  margin-bottom: 16px;
-  padding: 6px 18px;
-  border: 1px solid rgba(232,160,176,0.4);
-  border-radius: 20px;
-}
 
 .hero__title {
   font-size: clamp(2.4rem, 7vw, 5rem);
@@ -403,6 +384,18 @@ input, select, textarea { font-family: inherit; }
   display: grid;
   gap: 50px;
   align-items: center;
+}
+
+.about__subtitle {
+  font-size: 0.65em;
+  font-weight: var(--fw-semi);
+  display: block;
+  margin-top: -0.3em;
+}
+
+.services__cta {
+  text-align: center;
+  margin-top: 40px;
 }
 
 .about__desc {
@@ -768,6 +761,24 @@ input, select, textarea { font-family: inherit; }
   color: var(--clr-p-600);
   font-weight: var(--fw-semi);
 }
+.review-badge__rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+.review-badge__stars {
+  color: #f5a623;
+  font-size: 0.75rem;
+  display: flex;
+  gap: 1px;
+}
+.review-badge__score {
+  font-size: 1rem;
+  font-weight: var(--fw-heavy);
+  color: var(--clr-black);
+  line-height: 1;
+}
 
 /* =====================================================
    FAQ
@@ -850,7 +861,6 @@ input, select, textarea { font-family: inherit; }
   gap: 10px;
   transition: transform var(--transition), box-shadow var(--transition);
 }
-a.contact-card:hover,
 .contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 
 .contact-card__icon {
@@ -909,8 +919,7 @@ a.contact-card:hover,
 }
 
 .footer__brand { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.footer__logo { height: 48px; width: auto; object-fit: contain; }
-.footer__tagline { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+.footer__logo { height: 72px; width: auto; object-fit: contain; }
 
 .footer__nav {
   display: flex;
@@ -930,26 +939,42 @@ a.contact-card:hover,
 /* =====================================================
    WHATSAPP FLOATING BUTTON
    ===================================================== */
-.whatsapp-btn {
+.whatsapp-btn, .phone-btn {
   position: fixed;
-  bottom: 24px;
   left: 24px;
   z-index: 900;
-  width: 58px;
-  height: 58px;
-  background: #25d366;
-  color: white;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background var(--transition), transform var(--transition), color var(--transition);
+}
+.whatsapp-btn {
+  bottom: 24px;
   font-size: 1.7rem;
-  box-shadow: 0 4px 16px rgba(37,211,102,0.45);
-  transition: transform var(--transition), box-shadow var(--transition);
+  border: 2px solid #25d366;
+  color: #25d366;
 }
 .whatsapp-btn:hover, .whatsapp-btn:focus-visible {
-  transform: scale(1.1);
-  box-shadow: 0 6px 24px rgba(37,211,102,0.55);
+  background: #25d366;
+  color: white;
+  transform: scale(1.08);
+}
+.phone-btn {
+  bottom: 90px;
+  font-size: 1.3rem;
+  border: 2px solid #1976d2;
+  color: #1976d2;
+}
+.phone-btn:hover, .phone-btn:focus-visible {
+  background: #1976d2;
+  color: white;
+  transform: scale(1.08);
 }
 
 /* =====================================================
