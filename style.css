@@ -253,6 +253,25 @@ input, select, textarea { font-family: inherit; }
   transform: translateY(-1px);
 }
 
+.navbar__mobile-actions {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar__cta-mobile {
+  display: block;
+  background: var(--clr-primary);
+  color: var(--clr-white);
+  padding: 6px 11px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: var(--fw-semi);
+  white-space: nowrap;
+  transition: background var(--transition);
+}
+.navbar__cta-mobile:hover { background: var(--clr-primary-dark); }
+
 /* Hamburger */
 .navbar__hamburger {
   display: none;
@@ -591,7 +610,7 @@ input, select, textarea { font-family: inherit; }
   z-index: 1;
   display: grid;
   gap: 32px;
-  align-items: center;
+  align-items: start;
 }
 
 .quote__desc {
@@ -1062,6 +1081,7 @@ input, select, textarea { font-family: inherit; }
    RESPONSIVE — Mobile nav (< 1024px)
    ===================================================== */
 @media (max-width: 1023px) {
+  .navbar__mobile-actions { display: flex; }
   .navbar__hamburger { display: flex; }
 
   .navbar__menu {

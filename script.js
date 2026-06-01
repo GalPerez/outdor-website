@@ -226,6 +226,11 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 });
 
+/* ---- Floating buttons: remove focus after click ---- */
+document.querySelectorAll('.whatsapp-btn, .phone-btn').forEach(btn => {
+  btn.addEventListener('click', () => btn.blur());
+});
+
 /* ---- Footer year ---- */
 const yearEl = document.getElementById('footer-year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
