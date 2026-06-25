@@ -226,6 +226,34 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 });
 
+/* ---- Stats count-up ---- */
+function animateCount(el, target, suffix, duration) {
+  const start = performance.now();
+  (function update(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  })(start);
+}
+
+const statsSection = document.querySelector('.stats');
+if (statsSection) {
+  new IntersectionObserver((entries, obs) => {
+    if (!entries[0].isIntersecting) return;
+    document.querySelectorAll('.stats__number').forEach(el => {
+      const text = el.textContent.trim();
+      if (text === '24/7') {
+        animateCount(el, 24, '/7', 1200);
+      } else {
+        const m = text.match(/^(\d+)(.*)$/);
+        if (m) animateCount(el, parseInt(m[1]), m[2], 1200);
+      }
+    });
+    obs.disconnect();
+  }, { threshold: 0.5 }).observe(statsSection);
+}
+
 /* ---- Floating buttons: remove focus after click ---- */
 document.querySelectorAll('.whatsapp-btn, .phone-btn').forEach(btn => {
   btn.addEventListener('click', () => btn.blur());
