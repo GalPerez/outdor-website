@@ -458,7 +458,7 @@ input, select, textarea { font-family: inherit; }
 .about__founder-inner {
   display: grid;
   gap: 50px;
-  align-items: center;
+  align-items: start;
   padding-top: 48px;
   margin-top: 48px;
 }
