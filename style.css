@@ -453,6 +453,20 @@ input, select, textarea { font-family: inherit; }
   width: 100%;
 }
 
+.about__founder-inner {
+  display: grid;
+  gap: 50px;
+  align-items: center;
+  padding-top: 60px;
+  margin-top: 60px;
+  border-top: 1px solid var(--clr-border);
+}
+.about__founder-img img {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+}
+
 /* =====================================================
    SERVICES
    ===================================================== */
@@ -1077,6 +1091,7 @@ input, select, textarea { font-family: inherit; }
   }
 
   .about__inner { grid-template-columns: 3fr 2fr; }
+  .about__founder-inner { grid-template-columns: 2fr 3fr; }
   .services__grid { grid-template-columns: repeat(3, 1fr); }
   .ba-half img { height: 260px; }
   .quote__inner   { grid-template-columns: 1.3fr 1fr; }
