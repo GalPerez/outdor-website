@@ -458,8 +458,8 @@ input, select, textarea { font-family: inherit; }
   display: grid;
   gap: 50px;
   align-items: center;
-  padding-top: 48px;
-  margin-top: 48px;
+  padding-top: 24px;
+  margin-top: 24px;
 }
 .about__founder-img img {
   border-radius: var(--radius);
