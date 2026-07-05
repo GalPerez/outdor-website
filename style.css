@@ -1076,7 +1076,7 @@ input, select, textarea { font-family: inherit; }
     flex-direction: row;
   }
 
-  .about__inner { grid-template-columns: 1fr 1fr; }
+  .about__inner { grid-template-columns: 3fr 2fr; }
   .services__grid { grid-template-columns: repeat(3, 1fr); }
   .ba-half img { height: 260px; }
   .quote__inner   { grid-template-columns: 1.3fr 1fr; }
