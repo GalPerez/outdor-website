@@ -112,7 +112,8 @@ input, select, textarea { font-family: inherit; }
   margin-bottom: 14px;
 }
 .section-title--light { color: var(--clr-white); }
-.section-title--sm { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
+.section-title--sm { font-size: clamp(1.2rem, 2.5vw, 1.6rem); margin-bottom: 6px; }
+.about__founder-text .section-eyebrow { margin-bottom: 2px; }
 
 .section-subtitle {
   font-size: 1.05rem;
@@ -458,8 +459,8 @@ input, select, textarea { font-family: inherit; }
   display: grid;
   gap: 50px;
   align-items: center;
-  padding-top: 0;
-  margin-top: 8px;
+  padding-top: 48px;
+  margin-top: 48px;
 }
 .about__founder-img img {
   border-radius: var(--radius);
