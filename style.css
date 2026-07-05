@@ -114,6 +114,7 @@ input, select, textarea { font-family: inherit; }
 .section-title--light { color: var(--clr-white); }
 .section-title--sm { font-size: clamp(1.2rem, 2.5vw, 1.6rem); margin-bottom: 6px; }
 .about__founder-text .section-eyebrow { margin-bottom: 2px; }
+.about__text .about__desc,
 .about__founder-text .about__desc { margin-bottom: 12px; line-height: 1.55; }
 
 .section-subtitle {
