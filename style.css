@@ -463,6 +463,10 @@ input, select, textarea { font-family: inherit; }
   padding-top: 48px;
   margin-top: 48px;
 }
+@media (max-width: 1023px) {
+  .about__founder-img { order: 2; }
+  .about__founder-text { order: 1; }
+}
 .about__founder-img img {
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
