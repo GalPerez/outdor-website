@@ -411,7 +411,7 @@ input, select, textarea { font-family: inherit; }
 
 .about__outdor {
   font-family: 'Oxanium', sans-serif;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .about__subtitle {
@@ -480,8 +480,8 @@ input, select, textarea { font-family: inherit; }
 }
 .about__founder-img img {
   width: 100%;
-  transform: scale(1.15);
-  transform-origin: center top;
+  transform: scale(1.5);
+  transform-origin: center;
 }
 
 /* =====================================================
