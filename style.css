@@ -409,6 +409,11 @@ input, select, textarea { font-family: inherit; }
   align-items: center;
 }
 
+.about__outdor {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 800;
+}
+
 .about__subtitle {
   font-size: 0.65em;
   font-weight: var(--fw-semi);
@@ -468,10 +473,15 @@ input, select, textarea { font-family: inherit; }
   .about__founder-img { order: 2; }
   .about__founder-text { order: 1; }
 }
-.about__founder-img img {
+.about__founder-img {
+  overflow: hidden;
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
+}
+.about__founder-img img {
   width: 100%;
+  transform: scale(1.15);
+  transform-origin: center top;
 }
 
 /* =====================================================
