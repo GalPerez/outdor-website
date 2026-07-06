@@ -177,6 +177,7 @@ if (form) {
           success.hidden = false;
           success.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setTimeout(() => { success.hidden = true; }, 6000);
+          if (typeof gtag === 'function') gtag('event', 'SUBMIT_LEAD_FORM');
         })
         .catch(() => {
           alert('שגיאה בשליחה. נסה שוב או צור קשר טלפוני.');
