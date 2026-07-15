@@ -168,6 +168,15 @@ if (form) {
       const submitBtn = form.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
 
+      const leadData = {
+        name:         document.getElementById('form-name').value.trim(),
+        phone:        document.getElementById('form-phone').value.trim(),
+        project_type: document.getElementById('form-service').value,
+        address:      (document.getElementById('form-city')    || {}).value || '',
+        notes:        (document.getElementById('form-message') || {}).value || '',
+        lead_source:  'אתר'
+      };
+
       fetch('/', {
         method: 'POST',
         body: new FormData(form)
@@ -178,6 +187,11 @@ if (form) {
           success.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setTimeout(() => { success.hidden = true; }, 6000);
           if (typeof gtag === 'function') gtag('event', 'SUBMIT_LEAD_FORM');
+          fetch('https://crm.spiritlabs.ai/api/leads/403d3bd3f80944aeaecaf4520fc4f40961c1f03662f544be9329981939bcfd69', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(leadData)
+          }).catch(() => {});
         })
         .catch(() => {
           alert('שגיאה בשליחה. נסה שוב או צור קשר טלפוני.');
