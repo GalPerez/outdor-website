@@ -277,3 +277,21 @@ document.querySelectorAll('.whatsapp-btn, .phone-btn').forEach(btn => {
 /* ---- Footer year ---- */
 const yearEl = document.getElementById('footer-year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+/* ---- GA4 click tracking ---- */
+function trackClick(eventName) {
+  if (typeof gtag === 'function') gtag('event', eventName);
+}
+
+document.querySelectorAll('a[href^="tel:"]').forEach(el =>
+  el.addEventListener('click', () => trackClick(el.classList.contains('phone-btn') ? 'phone_click_floating' : 'phone_click_contact'))
+);
+document.querySelectorAll('a[href^="https://wa.me"]').forEach(el =>
+  el.addEventListener('click', () => trackClick(el.classList.contains('whatsapp-btn') ? 'whatsapp_click_floating' : 'whatsapp_click_contact'))
+);
+document.querySelector('a[aria-label="אינסטגרם OUTDOR"]')          ?.addEventListener('click', () => trackClick('instagram_click'));
+document.querySelector('a[aria-label="פייסבוק OUTDOR"]')           ?.addEventListener('click', () => trackClick('facebook_click'));
+document.querySelector('a[aria-label="יוטיוב OUTDOR"]')            ?.addEventListener('click', () => trackClick('youtube_click'));
+document.querySelector('a[aria-label="טיקטוק OUTDOR"]')            ?.addEventListener('click', () => trackClick('tiktok_click'));
+document.querySelector('a[aria-label="חוות דעת על OUTDOR במדרג"]') ?.addEventListener('click', () => trackClick('midrag_click'));
+document.querySelector('a[aria-label="חוות דעת על OUTDOR בשיפוצים פלוס"]')?.addEventListener('click', () => trackClick('shiplus_click'));
