@@ -731,6 +731,14 @@ input, select, textarea { font-family: inherit; }
   color: #e53935;
 }
 
+.form-privacy {
+  text-align: center;
+  font-size: 0.78rem;
+  color: #777;
+  margin-top: 10px;
+}
+.form-privacy a { color: inherit; text-decoration: underline; }
+
 .form-success {
   text-align: center;
   color: #2e7d32;
