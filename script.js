@@ -80,18 +80,20 @@ function showNext() {
   openLightbox((currentIndex + 1) % baImages.length);
 }
 
-baImages.forEach((img, i) => {
-  img.closest('.ba-half').addEventListener('click', () => openLightbox(i));
-});
+if (lightbox) {
+  baImages.forEach((img, i) => {
+    img.closest('.ba-half').addEventListener('click', () => openLightbox(i));
+  });
 
-lightboxClose.addEventListener('click', closeLightbox);
-lightboxPrev.addEventListener('click', showPrev);
-lightboxNext.addEventListener('click', showNext);
-lightbox.addEventListener('click', e => {
-  if (e.target === lightbox) closeLightbox();
-});
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightboxPrev.addEventListener('click', showPrev);
+  lightboxNext.addEventListener('click', showNext);
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) closeLightbox();
+  });
+}
 document.addEventListener('keydown', e => {
-  if (lightbox.hidden) return;
+  if (!lightbox || lightbox.hidden) return;
   if (e.key === 'Escape') closeLightbox();
   if (e.key === 'ArrowRight') showPrev();
   if (e.key === 'ArrowLeft')  showNext();
@@ -172,8 +174,13 @@ if (form) {
         name:         document.getElementById('form-name').value.trim(),
         phone:        document.getElementById('form-phone').value.trim(),
         project_type: document.getElementById('form-service').value,
+        property_type: (document.getElementById('form-property') || {}).value || '',
         address:      (document.getElementById('form-city')    || {}).value || '',
-        notes:        (document.getElementById('form-message') || {}).value || '',
+        notes:        [
+                        (document.getElementById('form-property') || {}).value ? 'סוג נכס: ' + document.getElementById('form-property').value : '',
+                        (document.getElementById('form-message') || {}).value || ''
+                      ].filter(Boolean).join(' | '),
+        landing_page: location.pathname,
         lead_source:  'אתר'
       };
 
@@ -293,5 +300,10 @@ document.querySelector('a[aria-label="אינסטגרם OUTDOR"]')          ?.add
 document.querySelector('a[aria-label="פייסבוק OUTDOR"]')           ?.addEventListener('click', () => trackClick('facebook_click'));
 document.querySelector('a[aria-label="יוטיוב OUTDOR"]')            ?.addEventListener('click', () => trackClick('youtube_click'));
 document.querySelector('a[aria-label="טיקטוק OUTDOR"]')            ?.addEventListener('click', () => trackClick('tiktok_click'));
-document.querySelector('a[aria-label="חוות דעת על OUTDOR במדרג"]') ?.addEventListener('click', () => trackClick('midrag_click'));
-document.querySelector('a[aria-label="חוות דעת על OUTDOR בשיפוצים פלוס"]')?.addEventListener('click', () => trackClick('shiplus_click'));
+
+/* ---- Landing pages: always open at the top ---- */
+if (document.querySelector('.hero--page') && !location.hash) {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+  window.addEventListener('load', () => window.scrollTo(0, 0));
+}
