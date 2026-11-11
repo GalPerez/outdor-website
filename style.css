@@ -1314,5 +1314,5 @@ input, select, textarea { font-family: inherit; }
 .photo-pair img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; display: block; }
 .photo-pair figcaption { grid-column: 1 / -1; }
 .photo-pair { max-width: 520px; margin-inline: auto; }
-.article__photo { max-width: 420px; margin-inline: auto; }
+.article__photo { max-width: 300px; margin-inline: auto; }
 .article__photo img { width: 100%; border-radius: 10px; display: block; }
