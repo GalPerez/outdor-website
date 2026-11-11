@@ -194,6 +194,7 @@ if (form) {
           success.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setTimeout(() => { success.hidden = true; }, 6000);
           if (typeof gtag === 'function') gtag('event', 'SUBMIT_LEAD_FORM');
+          if (typeof fbq === 'function') fbq('track', 'Lead');
           fetch('https://crm.spiritlabs.ai/api/leads/403d3bd3f80944aeaecaf4520fc4f40961c1f03662f544be9329981939bcfd69', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -288,6 +289,7 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 /* ---- GA4 click tracking ---- */
 function trackClick(eventName) {
   if (typeof gtag === 'function') gtag('event', eventName);
+  if (typeof fbq === 'function' && /^(phone|whatsapp)_click/.test(eventName)) fbq('track', 'Contact', { method: eventName.split('_')[0] });
 }
 
 document.querySelectorAll('a[href^="tel:"]').forEach(el =>
