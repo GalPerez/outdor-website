@@ -10,7 +10,7 @@ export default async (req) => {
     return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } });
   }
 
-  const target = process.env.CRM_WEBHOOK_URL;
+  const target = (process.env.CRM_WEBHOOK_URL || '').trim().replace(/^["']|["']$/g, '');
   if (!target) {
     console.error('CRM_WEBHOOK_URL is not set');
     return Response.json({ ok: false }, { status: 500 });
@@ -39,13 +39,14 @@ export default async (req) => {
       body: JSON.stringify(lead),
     });
     if (!res.ok) {
-      console.error('CRM responded', res.status);
-      return Response.json({ ok: false }, { status: 502 });
+      const detail = (await res.text()).slice(0, 200);
+      console.error('CRM responded', res.status, detail);
+      return Response.json({ ok: false, crm_status: res.status, crm_error: detail }, { status: 502 });
     }
     return Response.json({ ok: true });
   } catch (err) {
     console.error('CRM request failed', err);
-    return Response.json({ ok: false }, { status: 502 });
+    return Response.json({ ok: false, crm_error: String(err && err.message || err).slice(0, 200), url_ok: /^https:\/\//.test(target) }, { status: 502 });
   }
 };
 
