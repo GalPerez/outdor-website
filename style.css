@@ -1310,3 +1310,6 @@ input, select, textarea { font-family: inherit; }
 .checklist { padding: 0 !important; }
 .checklist li { position: relative; padding-inline-start: 34px; }
 .checklist li::before { content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; right: 0; top: 2px; width: 22px; height: 22px; border-radius: 50%; background: var(--clr-primary); color: var(--clr-white); font-size: 0.7rem; display: flex; align-items: center; justify-content: center; }
+.photo-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.photo-pair img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; display: block; }
+.photo-pair figcaption { grid-column: 1 / -1; }
