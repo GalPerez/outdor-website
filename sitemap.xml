@@ -7,39 +7,45 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://out-dor.com/privacy.html</loc>
+    <loc>https://out-dor.com/privacy</loc>
     <lastmod>2026-10-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://out-dor.com/accessibility.html</loc>
+    <loc>https://out-dor.com/accessibility</loc>
     <lastmod>2026-11-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://out-dor.com/facade-renovation.html</loc>
+    <loc>https://out-dor.com/facade-renovation</loc>
     <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://out-dor.com/dangerous-building.html</loc>
+    <loc>https://out-dor.com/dangerous-building</loc>
     <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://out-dor.com/wall-waterproofing.html</loc>
+    <loc>https://out-dor.com/wall-waterproofing</loc>
     <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://out-dor.com/balcony-renovation.html</loc>
+    <loc>https://out-dor.com/balcony-renovation</loc>
     <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://out-dor.com/guide-dangerous-building-order</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
