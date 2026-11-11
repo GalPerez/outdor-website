@@ -1313,3 +1313,4 @@ input, select, textarea { font-family: inherit; }
 .photo-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .photo-pair img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; display: block; }
 .photo-pair figcaption { grid-column: 1 / -1; }
+.photo-pair { max-width: 520px; margin-inline: auto; }
