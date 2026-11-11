@@ -195,7 +195,7 @@ if (form) {
           setTimeout(() => { success.hidden = true; }, 6000);
           if (typeof gtag === 'function') gtag('event', 'SUBMIT_LEAD_FORM');
           if (typeof fbq === 'function') fbq('track', 'Lead');
-          fetch('/api/lead', {
+          fetch('https://crm.spiritlabs.ai/api/leads/403d3bd3f80944aeaecaf4520fc4f40961c1f03662f544be9329981939bcfd69', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(leadData)
