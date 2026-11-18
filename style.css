@@ -1174,7 +1174,7 @@ input, select, textarea { font-family: inherit; }
 .hero--facade { background-image: url('assets/gallery/outdoor-wall-after.webp'); }
 .hero--dangerous { background-image: url('assets/gallery/rocket-after.webp'); }
 .hero--waterproofing { background-image: url('assets/gallery/corner-bricks-after.webp'); }
-.hero--balcony { background-image: url('assets/gallery/yosef-balcony-drone.webp'); }
+.hero--balcony { background-image: url('assets/gallery/yosef-balcony-drone-v2.webp'); }
 
 .lp-intro { max-width: 820px; margin: 0 auto; text-align: center; }
 .lp-intro p { font-size: 1.1rem; line-height: 1.8; color: var(--clr-text); margin-bottom: 14px; }
