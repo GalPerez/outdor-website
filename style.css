@@ -1223,6 +1223,7 @@ input, select, textarea { font-family: inherit; }
   margin: 0 auto 40px;
   line-height: 1.5;
 }
+.about__license i { color: var(--clr-primary, #8b1e2d); margin-inline-end: 4px; }
 .footer__license { font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-top: 6px; }
 
 /* =====================================================
