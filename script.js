@@ -265,6 +265,7 @@ if (statsSection) {
   new IntersectionObserver((entries, obs) => {
     if (!entries[0].isIntersecting) return;
     document.querySelectorAll('.stats__number').forEach(el => {
+      if (el.hasAttribute('data-static')) return;
       const text = el.textContent.trim();
       if (text === '24/7') {
         animateCount(el, 24, '/7', 1200);
