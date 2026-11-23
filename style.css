@@ -1176,7 +1176,8 @@ input, select, textarea { font-family: inherit; }
 .hero--waterproofing { background-image: url('assets/gallery/corner-bricks-after.webp'); }
 .hero--balcony { background-image: url('assets/gallery/yosef-balcony-drone-v2.webp'); }
 
-.section-header:has(+ .lp-intro) { margin-bottom: 20px; }
+.section-header:has(+ .lp-intro) { margin-bottom: 6px; }
+.section-header:has(+ .lp-intro) .section-title { margin-bottom: 0; }
 .lp-intro { max-width: 760px; margin: 0 auto 36px; text-align: center; }
 .lp-intro p { font-size: 1.1rem; line-height: 1.7; color: var(--clr-text); margin-bottom: 6px; text-wrap: pretty; }
 .lp-intro p:last-child { margin-bottom: 0; }
