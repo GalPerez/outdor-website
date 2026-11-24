@@ -61,6 +61,7 @@ function openLightbox(index) {
   currentIndex = index;
   lightboxImg.src = baImages[index].src;
   lightboxImg.alt = baImages[index].alt;
+  resetZoom();
   lightbox.hidden = false;
   lightboxClose.focus();
   document.body.style.overflow = 'hidden';
@@ -68,6 +69,7 @@ function openLightbox(index) {
 
 function closeLightbox() {
   lightbox.hidden = true;
+  resetZoom();
   lightboxImg.src = '';
   document.body.style.overflow = '';
 }
@@ -92,11 +94,99 @@ if (lightbox) {
     if (e.target === lightbox) closeLightbox();
   });
 }
+/* ---- Lightbox zoom (+/- buttons, wheel, double-click, pinch, drag to pan) ---- */
+const ZOOM_MIN = 1, ZOOM_MAX = 4, ZOOM_STEP = 0.5;
+let zoom = 1, panX = 0, panY = 0;
+let zoomInBtn = null, zoomOutBtn = null, zoomLevel = null;
+
+function clampPan() {
+  if (!lightboxImg) return;
+  const maxX = (lightboxImg.offsetWidth  * (zoom - 1)) / 2;
+  const maxY = (lightboxImg.offsetHeight * (zoom - 1)) / 2;
+  panX = Math.max(-maxX, Math.min(maxX, panX));
+  panY = Math.max(-maxY, Math.min(maxY, panY));
+}
+
+function applyZoom() {
+  if (!lightboxImg) return;
+  lightboxImg.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+  lightbox.classList.toggle('is-zoomed', zoom > 1);
+  if (zoomInBtn)  zoomInBtn.disabled  = zoom >= ZOOM_MAX;
+  if (zoomOutBtn) zoomOutBtn.disabled = zoom <= ZOOM_MIN;
+  if (zoomLevel)  zoomLevel.textContent = Math.round(zoom * 100) + '%';
+}
+
+function setZoom(z) {
+  zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z));
+  if (zoom === ZOOM_MIN) { panX = 0; panY = 0; }
+  clampPan();
+  applyZoom();
+}
+
+function resetZoom() { zoom = 1; panX = 0; panY = 0; applyZoom(); }
+
+if (lightbox) {
+  const bar = document.createElement('div');
+  bar.className = 'lightbox__zoom';
+  bar.innerHTML =
+    '<button type="button" class="lightbox__zoom-btn" data-zoom="out" aria-label="הקטנת תמונה"><i class="fa-solid fa-minus" aria-hidden="true"></i></button>' +
+    '<span class="lightbox__zoom-level" aria-live="polite">100%</span>' +
+    '<button type="button" class="lightbox__zoom-btn" data-zoom="in" aria-label="הגדלת תמונה"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>';
+  lightbox.appendChild(bar);
+  zoomOutBtn = bar.querySelector('[data-zoom="out"]');
+  zoomInBtn  = bar.querySelector('[data-zoom="in"]');
+  zoomLevel  = bar.querySelector('.lightbox__zoom-level');
+  zoomInBtn.addEventListener('click',  () => setZoom(zoom + ZOOM_STEP));
+  zoomOutBtn.addEventListener('click', () => setZoom(zoom - ZOOM_STEP));
+
+  lightboxImg.addEventListener('dblclick', () => setZoom(zoom > 1 ? 1 : 2));
+  lightbox.addEventListener('wheel', e => {
+    e.preventDefault();
+    setZoom(zoom + (e.deltaY < 0 ? 0.25 : -0.25));
+  }, { passive: false });
+
+  // Drag to pan (mouse/touch) and pinch to zoom (two fingers)
+  const pointers = new Map();
+  let lastX = 0, lastY = 0, pinchDist = 0, pinchZoom = 1;
+  lightboxImg.addEventListener('pointerdown', e => {
+    lightboxImg.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    lastX = e.clientX; lastY = e.clientY;
+    if (pointers.size === 2) {
+      const [a, b] = [...pointers.values()];
+      pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
+      pinchZoom = zoom;
+    }
+  });
+  lightboxImg.addEventListener('pointermove', e => {
+    if (!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2 && pinchDist) {
+      const [a, b] = [...pointers.values()];
+      setZoom(pinchZoom * (Math.hypot(a.x - b.x, a.y - b.y) / pinchDist));
+    } else if (pointers.size === 1 && zoom > 1) {
+      panX += e.clientX - lastX; panY += e.clientY - lastY;
+      lastX = e.clientX; lastY = e.clientY;
+      clampPan(); applyZoom();
+    }
+  });
+  const endPointer = e => {
+    pointers.delete(e.pointerId);
+    if (pointers.size < 2) pinchDist = 0;
+    if (pointers.size === 1) { const [p] = [...pointers.values()]; lastX = p.x; lastY = p.y; }
+  };
+  lightboxImg.addEventListener('pointerup', endPointer);
+  lightboxImg.addEventListener('pointercancel', endPointer);
+  lightboxImg.addEventListener('dragstart', e => e.preventDefault());
+}
+
 document.addEventListener('keydown', e => {
   if (!lightbox || lightbox.hidden) return;
   if (e.key === 'Escape') closeLightbox();
   if (e.key === 'ArrowRight') showPrev();
   if (e.key === 'ArrowLeft')  showNext();
+  if (e.key === '+' || e.key === '=') setZoom(zoom + ZOOM_STEP);
+  if (e.key === '-') setZoom(zoom - ZOOM_STEP);
 });
 
 /* ---- FAQ Accordion ---- */

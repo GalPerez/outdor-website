@@ -662,6 +662,39 @@ input, select, textarea { font-family: inherit; }
 .lightbox__nav:hover { background: rgba(255,255,255,0.28); }
 .lightbox__nav--prev { right: 20px; }
 .lightbox__nav--next { left: 20px; }
+.lightbox { overflow: hidden; }
+.lightbox__img { transition: transform 0.15s ease-out; touch-action: none; user-select: none; cursor: zoom-in; }
+.lightbox.is-zoomed .lightbox__img { cursor: grab; transition: none; }
+.lightbox.is-zoomed .lightbox__img:active { cursor: grabbing; }
+.lightbox__close, .lightbox__nav, .lightbox__zoom { z-index: 2; }
+.lightbox__zoom {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.55);
+  direction: ltr;
+}
+.lightbox__zoom-btn {
+  color: white;
+  font-size: 1.1rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  transition: background var(--transition);
+}
+.lightbox__zoom-btn:hover:not(:disabled) { background: rgba(255,255,255,0.28); }
+.lightbox__zoom-btn:disabled { opacity: 0.35; cursor: default; }
+.lightbox__zoom-level { color: white; font-size: 0.9rem; min-width: 48px; text-align: center; font-variant-numeric: tabular-nums; }
 .ba-label {
   position: absolute;
   bottom: 10px;
